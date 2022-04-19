@@ -20,6 +20,10 @@ let scoreDifficultBeginner3 = 0; let scoreDifficultIntermediate3 = 0;
 let scoreDifficultAdvanced3 = 0; let scoreDifficultGod3 = 0;
 let scoreDifficultBeginner4 = 0; let scoreDifficultIntermediate4 = 0; let scoreDifficultAdvanced4 = 0; let scoreDifficultGod4 = 0; let scoreDifficultBeginner5 = 0; let scoreDifficultIntermediate5 = 0; let scoreDifficultAdvanced5 = 0; let scoreDifficultGod5 = 0; let streakEasyBeginner3 = 0; let streakEasyIntermediate3 = 0; let streakEasyAdvanced3 = 0; let streakEasyGod3 = 0; let streakEasyBeginner4 = 0; let streakEasyIntermediate4 = 0; let streakEasyAdvanced4 = 0; let streakEasyGod4 = 0; let streakEasyBeginner5 = 0; let streakEasyIntermediate5 = 0; let streakEasyAdvanced5 = 0; let streakEasyGod5 = 0; let streakDifficultBeginner3 = 0; let streakDifficultIntermediate3 = 0; let streakDifficultAdvanced3 = 0; let streakDifficultGod3 = 0; let streakDifficultBeginner4 = 0; let streakDifficultIntermediate4 = 0; let streakDifficultAdvanced4 = 0; let streakDifficultGod4 = 0; let streakDifficultBeginner5 = 0; let streakDifficultIntermediate5 = 0; let streakDifficultAdvanced5 = 0; let streakDifficultGod5 = 0; let scoreType = 'score'; let scoreDiff = 'easy';
 
+// https://codeburst.io/javascript-double-equals-vs-triple-equals-61d4ce5a121a
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+// https://www.w3schools.com/js/js_arrow_function.asp
+
 const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
 
 let container = document.createElement('div');
@@ -50,45 +54,45 @@ function showScores(modal, type, diff) {
 	}
 }
 
-function showHelp(modal, type) {
-	let exampleWords = ['SUNNY', 'WORLD', 'TITAN'];
-	let mhBlock = document.createElement('div');
-	mhBlock.id = 'mhBlock';
-	mhbHead = document.createElement('div');
-	mhbHead.className = 'mhbHead';
-	mhbHead.innerText = (type == 'game') ? 'You have 6 tries to guess the word.\n\nOnly valid words are allowed. Hit enter to submit your guess.\n\nWith each guess, the colour of the tiles will change to show you how close your guess is to the word.' : 'There are 4 different levels ranging between beginner and God mode. The higher the level, the more words will be in play and the harder it will be to guess.\n\nYou can change the level either in the main menu or in play by clicking on the currently stated level.';
-	mhBlock.append(mhbHead);
+// function showHelp(modal, type) {
+// 	let exampleWords = ['SUNNY', 'WORLD', 'TITAN'];
+// 	let mhBlock = document.createElement('div');
+// 	mhBlock.id = 'mhBlock';
+// 	mhbHead = document.createElement('div');
+// 	mhbHead.className = 'mhbHead';
+// 	mhbHead.innerText = (type == 'game') ? 'You have 6 tries to guess the word.\n\nOnly valid words are allowed. Hit enter to submit your guess.\n\nWith each guess, the colour of the tiles will change to show you how close your guess is to the word.' : 'There are 4 different levels ranging between beginner and God mode. The higher the level, the more words will be in play and the harder it will be to guess.\n\nYou can change the level either in the main menu or in play by clicking on the currently stated level.';
+// 	mhBlock.append(mhbHead);
 
-	let mhbBody = document.createElement('div');
-	mhbBody.className = 'mhbBody';
+// 	let mhbBody = document.createElement('div');
+// 	mhbBody.className = 'mhbBody';
 
-	if (type == 'game') {
-		for (i = 0; i < exampleWords.length; i++) {
-			let rand = Math.floor(Math.random() * 5);
-			let tileClass = (i == 0) ? 'blockGreen' : ((i == 1) ? 'blockGold' : 'blockGrey');
-			let exNotification = '';
-			let exampleRow = document.createElement('div');
-			exampleRow.className = 'exampleRow';
-			for (j = 0; j < exampleWords[i].length; j++) {
-				let exampleTile = document.createElement('span');
-				exampleTile.className = (j == rand) ? 'exampleTile ' + tileClass : 'exampleTile';
-				exampleTile.innerText = exampleWords[i][j];
-				exampleRow.append(exampleTile);
-				exNotification += (j == rand) ? '<strong>' + exampleWords[i][j] + '</strong>' : '';
-			}
-			exNotification += (i == 0) ? ' is in the word and in the correct place' : ((i == 1) ? ' is in the word but in the wrong place' : ' is not in the word');
-			let exNotRow = document.createElement('div');
-			exNotRow.innerHTML = exNotification;
-			exampleRow.append(exNotRow);
-			mhbBody.append(exampleRow);
-		}
-	} else {
-		mhbBody.className = 'mhbHead';
-		mhbBody.innerText = '\nIn addition to the levels, there are 2 difficulty modes - easy and difficult. You can use any valid words within your guesses in easy mode.\n\nIn difficult mode, you must reuse any letters that you have previously chosen and are found to be within the word.\n\nYou can quit the game at any time by clicking on the give up button, which will deduct 15 points from your score and show you the current word.';
-	}
-	mhBlock.append(mhbBody);
-	modal.append(mhBlock);
-}
+// 	if (type == 'game') {
+// 		for (i = 0; i < exampleWords.length; i++) {
+// 			let rand = Math.floor(Math.random() * 5);
+// 			let tileClass = (i == 0) ? 'blockGreen' : ((i == 1) ? 'blockGold' : 'blockGrey');
+// 			let exNotification = '';
+// 			let exampleRow = document.createElement('div');
+// 			exampleRow.className = 'exampleRow';
+// 			for (j = 0; j < exampleWords[i].length; j++) {
+// 				let exampleTile = document.createElement('span');
+// 				exampleTile.className = (j == rand) ? 'exampleTile ' + tileClass : 'exampleTile';
+// 				exampleTile.innerText = exampleWords[i][j];
+// 				exampleRow.append(exampleTile);
+// 				exNotification += (j == rand) ? '<strong>' + exampleWords[i][j] + '</strong>' : '';
+// 			}
+// 			exNotification += (i == 0) ? ' is in the word and in the correct place' : ((i == 1) ? ' is in the word but in the wrong place' : ' is not in the word');
+// 			let exNotRow = document.createElement('div');
+// 			exNotRow.innerHTML = exNotification;
+// 			exampleRow.append(exNotRow);
+// 			mhbBody.append(exampleRow);
+// 		}
+// 	} else {
+// 		mhbBody.className = 'mhbHead';
+// 		mhbBody.innerText = '\nIn addition to the levels, there are 2 difficulty modes - easy and difficult. You can use any valid words within your guesses in easy mode.\n\nIn difficult mode, you must reuse any letters that you have previously chosen and are found to be within the word.\n\nYou can quit the game at any time by clicking on the give up button, which will deduct 15 points from your score and show you the current word.';
+// 	}
+// 	mhBlock.append(mhbBody);
+// 	modal.append(mhBlock);
+// }
 
 function openModal(type, notification) {
 	let modal = document.createElement('div');
@@ -155,37 +159,37 @@ function openModal(type, notification) {
 			document.addEventListener('keyup', restart);
 		}, 100);
 	}
-	else if (type == 'highScores') {
-		for (i = 0; i < 2; i++) {
-			let scoreType = document.createElement('div');
-			scoreType.className = 'scoreType';
-			scoreType.innerText = (i == 0) ? 'SCORE' : 'STREAK';
-			modal.append(scoreType);
-		}
+	// else if (type == 'highScores') {
+	// 	for (i = 0; i < 2; i++) {
+	// 		let scoreType = document.createElement('div');
+	// 		scoreType.className = 'scoreType';
+	// 		scoreType.innerText = (i == 0) ? 'SCORE' : 'STREAK';
+	// 		modal.append(scoreType);
+	// 	}
 
-		for (i = 0; i < 4; i++) {
-			let scoreBtn = document.createElement('button');
-			scoreBtn.className = (i == 0) ? 'scoreBtnActive' : 'scoreBtn';
-			scoreBtn.innerText = (i == 0 || i == 2) ? 'EASY' : 'DIFFICULT';
-			scoreBtn.j = i;
-			scoreBtn.modal = modal;
-			scoreBtn.addEventListener('click', changeScore);
-			modal.append(scoreBtn);
-		}
-		showScores(modal, 'score', 'easy');
-	}
-	else if (type == 'help') {
-		for (i = 0; i < 2; i++) {
-			let helpBtn = document.createElement('button');
-			helpBtn.className = (i == 0) ? 'helpBtnActive' : 'helpBtn';
-			helpBtn.innerText = (i == 0 || i == 2) ? 'GAME' : 'OPTIONS';
-			helpBtn.j = i;
-			helpBtn.modal = modal;
-			helpBtn.addEventListener('click', changeHelpView);
-			modal.append(helpBtn);
-		}
-		showHelp(modal, 'game');
-	}
+	// 	for (i = 0; i < 4; i++) {
+	// 		let scoreBtn = document.createElement('button');
+	// 		scoreBtn.className = (i == 0) ? 'scoreBtnActive' : 'scoreBtn';
+	// 		scoreBtn.innerText = (i == 0 || i == 2) ? 'EASY' : 'DIFFICULT';
+	// 		scoreBtn.j = i;
+	// 		scoreBtn.modal = modal;
+	// 		scoreBtn.addEventListener('click', changeScore);
+	// 		modal.append(scoreBtn);
+	// 	}
+	// 	showScores(modal, 'score', 'easy');
+	// }
+	// else if (type == 'help') {
+	// 	for (i = 0; i < 2; i++) {
+	// 		let helpBtn = document.createElement('button');
+	// 		helpBtn.className = (i == 0) ? 'helpBtnActive' : 'helpBtn';
+	// 		helpBtn.innerText = (i == 0 || i == 2) ? 'GAME' : 'OPTIONS';
+	// 		helpBtn.j = i;
+	// 		helpBtn.modal = modal;
+	// 		helpBtn.addEventListener('click', changeHelpView);
+	// 		modal.append(helpBtn);
+	// 	}
+	// 	showHelp(modal, 'game');
+	// }
 
 	container.prepend(modal);
 	setTimeout(function () {
@@ -544,7 +548,8 @@ function logoClick(event) {
 
 function menuClick(event) {
 	let j = event.currentTarget.j;
-	let modalType = (j == 0) ? 'charSelect' : ((j == 1) ? 'levelSelect' : ((j == 2) ? 'difficultySelect' : ((j == 3) ? 'highScores' : 'help')));
+	let modalType = (j == 0) ? 'charSelect' : ((j == 1) ? 'levelSelect' : 'difficultySelect');
+	// let modalType = (j == 0) ? 'charSelect' : ((j == 1) ? 'levelSelect' : ((j == 2) ? 'difficultySelect' : ((j == 3) ? 'highScores' : 'help')));
 	if (j < 5) {
 		openModal(modalType);
 	} else {
