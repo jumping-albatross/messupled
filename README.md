@@ -27,7 +27,7 @@ Wordled can be played in the browser, simply open the index.html file in any bro
 
 **Play online**
 
-Wordled can also be played online at [wordled.online](https://wordled.online)
+Wordled can also be played online at [notarealurl.yet](https://notarealurl.yet)
 
 **Languages used**
 
