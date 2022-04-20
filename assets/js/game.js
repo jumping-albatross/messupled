@@ -179,32 +179,13 @@ function openModal(type, notification) {
 	modal.prepend(modalClose);
 }
 
-function addSocial(loc) {
-	let socialNav = document.createElement('div');
-	socialNav.className = 'socialNav';
+// function addSocial(loc) {
+// 	let socialNav = document.createElement('div');
+// 	socialNav.className = 'socialNav';
 
-	let facebookIcon = document.createElement('img');
-	facebookIcon.className = 'modalSocialIcon';
-	facebookIcon.src = './assets/img/social/facebook_icon.png';
-	facebookIcon.title = 'Share on FaceBook';
-	facebookIcon.alt = 'FaceBook';
-	facebookIcon.addEventListener("click", function () {
-		openWindow('https://www.facebook.com/sharer.php?u=https://wordled.online', 'FaceBook');
-	});
-	socialNav.append(facebookIcon);
 
-	let redditIcon = document.createElement('img');
-	redditIcon.className = 'modalSocialIcon';
-	redditIcon.src = './assets/img/social/reddit_icon.png';
-	redditIcon.title = 'Share on Reddit';
-	redditIcon.alt = 'Reddit';
-	redditIcon.addEventListener("click", function () {
-		openWindow('https://www.reddit.com/submit?url=https://wordled.online&title=Play%20Wordled%20Online%20-%20a%20free%20word%20game', 'Reddit');
-	});
-	socialNav.append(redditIcon);
-
-	loc.append(socialNav);
-}
+// 	loc.append(socialNav);
+// }
 
 function openWindow(url, windowName) {
 	window.open(url, windowName, 'width=550,height=450,left=150,top=200,toolbar=0,status=0,data-action=share/whatsapp/share')
@@ -401,9 +382,12 @@ function gameStart() {
 	notification.innerText = 'Start guessing!'
 	container.append(notification);
 
-	let keyLayoutTop = 'QWERTYUIOP';
-	let keyLayoutMid = 'ASDFGHJKL';
-	let keyLayoutBot = 'ZXCVBNM';
+	let keyLayoutTop = 'ABCDEFGHIJ';
+	let keyLayoutMid = 'KLMNOPQRS';
+	let keyLayoutBot = 'TUVWXYZ';
+	// let keyLayoutTop = 'QWERTYUIOP';
+	// let keyLayoutMid = 'ASDFGHJKL';
+	// let keyLayoutBot = 'ZXCVBNM';
 
 	let keyboard = document.createElement('div');
 	keyboard.id = 'keyboard';
@@ -437,7 +421,7 @@ function gameStart() {
 
 	container.append(keyboard);
 
-	addSocial(container);
+	// addSocial(container);
 
 	document.addEventListener('keyup', keyPress);
 }
