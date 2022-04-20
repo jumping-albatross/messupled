@@ -3,14 +3,11 @@ let intermediate;
 let advanced;
 let fullList;
 
-let currentRow = 0; let nextRowBlock = 0; let score = 0; let remNotification = 0;
+let currentRow = 0; let nextRowBlock = 0; let remNotification = 0;
 
-let gameFin = 0; let gameOn = 0;
+let gameFin = 0;
 
-let maxBlock = 5; let level = 'beginner'; let difficulty = 'easy'; let mustUse = '';
-
-let scoreType = 'score';
-let scoreDiff = 'easy';
+let maxBlock = 5;
 
 // https://codeburst.io/javascript-double-equals-vs-triple-equals-61d4ce5a121a
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
@@ -23,28 +20,6 @@ container.id = 'container';
 document.body.append(container);
 
 startMenu();
-
-function showScores(modal, type, diff) {
-	let msBlock = document.createElement('div');
-	msBlock.id = 'msBlock';
-	modal.append(msBlock);
-	for (i = 0; i < 4; i++) {
-		let modalScoreBlock = document.createElement('div');
-		modalScoreBlock.className = 'msBlock';
-		let msHeadContent = (i == 0) ? 'BEGINNER' : ((i == 1) ? 'INTERMEDIATE' : ((i == 2) ? 'ADVANCED' : 'GOD MODE'));
-		let modalScoreHead = document.createElement('span');
-		modalScoreHead.className = 'msHead';
-		modalScoreHead.innerText = msHeadContent;
-		modalScoreBlock.append(modalScoreHead);
-
-		let msBodyContent = localStorage.getItem(type + diff + msHeadContent.toLowerCase().replace(/ /g, ""));
-		let modalScoreBody = document.createElement('span');
-		modalScoreBody.className = 'msBody';
-		modalScoreBody.innerText = (msBodyContent == null) ? 0 : msBodyContent;
-		modalScoreBlock.append(modalScoreBody);
-		msBlock.append(modalScoreBlock);
-	}
-}
 
 function showHelp(modal, type) {
 	let exampleWords = ['SUNNY', 'WORLD', 'TITAN'];
@@ -89,58 +64,16 @@ function showHelp(modal, type) {
 function openModal(type, notification) {
 	let modal = document.createElement('div');
 	modal.id = 'modal';
-	if (type == 'levelSelect') {
-		for (i = 0; i < 5; i++) {
-			let modalBtn = document.createElement('button');
-			modalBtn.className = 'modalBtn';
-			modalBtn.innerText = (i == 0) ? 'Beginner' : ((i == 1) ? 'Intermediate' : ((i == 2) ? 'Advanced' : ((i == 3) ? 'God Mode' : 'Custom')));
-			modalBtn.addEventListener('click', levelSelect);
-			modal.append(modalBtn);
-		}
-	}
-	else if (type == 'charSelect') {
-		for (i = 3; i < 6; i++) {
-			let modalBtn = document.createElement('button');
-			modalBtn.className = 'modalBtnL';
-			modalBtn.innerText = i + ' letters';
-			modalBtn.addEventListener('click', charSelect);
-			modal.append(modalBtn);
-			setTimeout(function () {
-				modal.style.cssText = 'opacity: 1';
-			}, 1);
-		}
-	}
-	else if (type == 'endScore') {
+	if (type == 'endScore') {
 		let message = document.createElement('span');
 		message.className = 'modalMessage';
 		message.innerHTML = notification;
 		modal.append(message);
 
-		// addSocial(modal);
-
 		setTimeout(function () {
 			document.addEventListener('click', restartClick);
 			document.addEventListener('keyup', restart);
 		}, 100);
-	}
-	else if (type == 'highScores') {
-		for (i = 0; i < 2; i++) {
-			let scoreType = document.createElement('div');
-			scoreType.className = 'scoreType';
-			scoreType.innerText = (i == 0) ? 'SCORE' : 'STREAK';
-			modal.append(scoreType);
-		}
-
-		for (i = 0; i < 4; i++) {
-			let scoreBtn = document.createElement('button');
-			scoreBtn.className = (i == 0) ? 'scoreBtnActive' : 'scoreBtn';
-			scoreBtn.innerText = (i == 0 || i == 2) ? 'EASY' : 'DIFFICULT';
-			scoreBtn.j = i;
-			scoreBtn.modal = modal;
-			scoreBtn.addEventListener('click', changeScore);
-			modal.append(scoreBtn);
-		}
-		showScores(modal, 'score', 'easy');
 	}
 	else if (type == 'help') {
 		for (i = 0; i < 2; i++) {
@@ -153,9 +86,6 @@ function openModal(type, notification) {
 			modal.append(helpBtn);
 		}
 		showHelp(modal, 'game');
-	}
-	else{
-		return 0;
 	}
 
 	container.prepend(modal);
@@ -172,20 +102,12 @@ function openModal(type, notification) {
 
 	let modalClose = document.createElement('button');
 	modalClose.id = 'modalClose';
-	modalClose.innerText = 'close';
+	modalClose.innerText = 'Close \u23CE';
 	modalClose.modal = modal;
 	modalClose.shadowBack = shadowBack;
 	modalClose.addEventListener('click', closeModal);
 	modal.prepend(modalClose);
 }
-
-// function addSocial(loc) {
-// 	let socialNav = document.createElement('div');
-// 	socialNav.className = 'socialNav';
-
-
-// 	loc.append(socialNav);
-// }
 
 function openWindow(url, windowName) {
 	window.open(url, windowName, 'width=550,height=450,left=150,top=200,toolbar=0,status=0,data-action=share/whatsapp/share')
@@ -223,70 +145,11 @@ function changeHelpView() {
 }
 
 function setGlobal() {
-	for (i = 1; i < 16; i++) {
-		for (j = 3; j < 6; j++) {
-			let lsItem = (i == 1) ? 'scoreeasybeginner' + j : ((i == 2) ? 'scoreeasyintermediate' + j : ((i == 3) ? 'scoreeasyadvanced' + j : ((i == 4) ? 'scoreeasygodmode' + j : ((i == 5) ? 'scoredifficultbeginner' + j : ((i == 6) ? 'scoredifficultintermediate' + j : ((i == 7) ? 'scoredifficultadvanced' + j : ((i == 8) ? 'scoredifficultgodmode' + j : ((i == 9) ? 'streakeasybeginner' + j : ((i == 10) ? 'streakeasyintermediate' + j : ((i == 11) ? 'streakeasyadvanced' + j : ((i == 12) ? 'streakeasygodmode' + j : ((i == 13) ? 'streakdifficultbeginner' + j : ((i == 14) ? 'streakdifficultintermediate' + j : ((i == 15) ? 'streakdifficultadvanced' + j : 'streakdifficultgodmode' + j))))))))))))));
-			if (localStorage.getItem(lsItem) === null) {
-				localStorage.setItem(lsItem, 0);
-			}
-		}
-	}
-
-	streakEasyBeginner3 = localStorage.getItem('streakeasybeginner3');
-	streakEasyIntermediate3 = localStorage.getItem('streakeasyintermediate3');
-	streakEasyAdvanced3 = localStorage.getItem('streakeasyadvanced3');
-	streakEasyGod3 = localStorage.getItem('streakeasygodmode3');
-	streakEasyBeginner4 = localStorage.getItem('streakeasybeginner4');
-	streakEasyIntermediate4 = localStorage.getItem('streakeasyintermediate4');
-	streakEasyAdvanced4 = localStorage.getItem('streakeasyadvanced4');
-	streakEasyGod4 = localStorage.getItem('streakeasygodmode4');
-	streakEasyBeginner5 = localStorage.getItem('streakeasybeginner5');
-	streakEasyIntermediate5 = localStorage.getItem('streakeasyintermediate5');
-	streakEasyAdvanced5 = localStorage.getItem('streakeasyadvanced5');
-	streakEasyGod5 = localStorage.getItem('streakeasygodmode5');
-	streakDifficultBeginner3 = localStorage.getItem('streakdifficultbeginner3');
-	streakDifficultIntermediate3 = localStorage.getItem('streakdifficultintermediate3');
-	streakDifficultAdvanced3 = localStorage.getItem('streakdifficultadvanced3');
-	streakDifficultGod3 = localStorage.getItem('streakdifficultgodmode3');
-	streakDifficultBeginner4 = localStorage.getItem('streakdifficultbeginner4');
-	streakDifficultIntermediate4 = localStorage.getItem('streakdifficultintermediate4');
-	streakDifficultAdvanced4 = localStorage.getItem('streakdifficultadvanced4');
-	streakDifficultGod4 = localStorage.getItem('streakdifficultgodmode4');
-	streakDifficultBeginner5 = localStorage.getItem('streakdifficultbeginner5');
-	streakDifficultIntermediate5 = localStorage.getItem('streakdifficultintermediate5');
-	streakDifficultAdvanced5 = localStorage.getItem('streakdifficultadvanced5');
-	streakDifficultGod5 = localStorage.getItem('streakdifficultgodmode5');
-	scoreEasyBeginner3 = localStorage.getItem('scoreeasybeginner3');
-	scoreEasyIntermediate3 = localStorage.getItem('scoreeasyintermediate3');
-	scoreEasyAdvanced3 = localStorage.getItem('scoreeasyadvanced3');
-	scoreEasyGod3 = localStorage.getItem('scoreeasygodmode3');
-	scoreEasyBeginner4 = localStorage.getItem('scoreeasybeginner4');
-	scoreEasyIntermediate4 = localStorage.getItem('scoreeasyintermediate4');
-	scoreEasyAdvanced4 = localStorage.getItem('scoreeasyadvanced4');
-	scoreEasyGod4 = localStorage.getItem('scoreeasygodmode4');
-	scoreEasyBeginner5 = localStorage.getItem('scoreeasybeginner5');
-	scoreEasyIntermediate5 = localStorage.getItem('scoreeasyintermediate5');
-	scoreEasyAdvanced5 = localStorage.getItem('scoreeasyadvanced5');
-	scoreEasyGod5 = localStorage.getItem('scoreeasygodmode5');
-	scoreDifficultBeginner3 = localStorage.getItem('scoredifficultbeginner3');
-	scoreDifficultIntermediate3 = localStorage.getItem('scoredifficultintermediate3');
-	scoreDifficultAdvanced3 = localStorage.getItem('scoredifficultadvanced3');
-	scoreDifficultGod3 = localStorage.getItem('scoredifficultgodmode3');
-	scoreDifficultBeginner4 = localStorage.getItem('scoredifficultbeginner4');
-	scoreDifficultIntermediate4 = localStorage.getItem('scoredifficultintermediate4');
-	scoreDifficultAdvanced4 = localStorage.getItem('scoredifficultadvanced4');
-	scoreDifficultGod4 = localStorage.getItem('scoredifficultgodmode4');
-	scoreDifficultBeginner5 = localStorage.getItem('scoredifficultbeginner5');
-	scoreDifficultIntermediate5 = localStorage.getItem('scoredifficultintermediate5');
-	scoreDifficultAdvanced5 = localStorage.getItem('scoredifficultadvanced5');
-	scoreDifficultGod5 = localStorage.getItem('scoredifficultgodmode5');
 
 	gameFin = 0;
 	currentRow = 0;
 	nextRowBlock = 0;
-	score = 0;
 	remNotification = 0;
-	mustUse = '';
 }
 
 function startMenu() {
@@ -302,11 +165,13 @@ function startMenu() {
 	addLogo();
 	let menu = document.createElement('div');
 	menu.id = 'menu';
-	for (i = 0; i < 5; i++) {
+
+
+	for (i = 0; i < 2; i++) {
 		let j = i;
 		let menuBtn = document.createElement('button');
 		menuBtn.className = 'menuBtn';
-		menuBtn.innerText = (i == 0) ? maxBlock + ' letters' : ((i == 1) ? level : ((i == 2) ? difficulty : ((i == 3) ? 'help' : 'start game')));
+		menuBtn.innerText = (i == 0) ? 'help' : 'start game';
 		menuBtn.j = i;
 
 		menuBtn.addEventListener("click", menuClick);
@@ -324,14 +189,14 @@ function gameOver() {
 	document.removeEventListener('click', menuClick, false);
 	document.removeEventListener('click', enterClick, false);
 	document.removeEventListener('click', levelModal, false);
-	document.removeEventListener('click', difficultyModal, false);
 	document.removeEventListener('click', closeModal, false);
 }
 
 function gameStart() {
 	setGlobal();
 	container.innerHTML = '';
-	let wordType = (level == 'beginner') ? beginner : ((level == 'intermediate') ? intermediate : ((level == 'advanced') ? advanced : ((level == 'godmode') ? fullList : custom)));
+	// let wordType = (level == 'beginner') ? beginner : ((level == 'intermediate') ? intermediate : ((level == 'advanced') ? advanced : ((level == 'godmode') ? fullList : custom)));
+	let wordType = advanced;
 	let rand = Math.floor(Math.random() * wordType.length);
 	chosenWord = wordType[rand].toUpperCase();
 	console.log(chosenWord)
@@ -339,26 +204,14 @@ function gameStart() {
 
 	let navBar = document.createElement('div');
 	navBar.className = 'nav_bar';
-	let difficultySelect = document.createElement('button');
-	difficultySelect.id = 'difficultySelectBtn';
-	difficultySelect.className = 'btn';
-	difficultySelect.innerText = difficulty;
-	difficultySelect.addEventListener('click', difficultyModal);
-	navBar.append(difficultySelect);
 
-	let giveUpBtn = document.createElement('button');
-	giveUpBtn.id = 'giveUpBtn';
-	giveUpBtn.className = 'btn';
-	giveUpBtn.innerText = 'give up';
-	giveUpBtn.addEventListener('click', quitQlick);
-	navBar.append(giveUpBtn);
 
 	let levelSelect = document.createElement('button');
 	levelSelect.id = 'levelSelectBtn';
 	levelSelect.className = 'btn';
-	levelSelect.innerText = level;
+	levelSelect.innerText = 'does nothing';
 	levelSelect.addEventListener('click', levelModal = function (event) {
-		openModal('levelSelect');
+		openModal('charSelect');
 	})
 	navBar.append(levelSelect);
 	container.append(navBar);
@@ -426,10 +279,6 @@ function gameStart() {
 	document.addEventListener('keyup', keyPress);
 }
 
-function difficultyModal() {
-	openModal('difficultySelect');
-}
-
 function keyPress(event) {
 	if (gameFin == 0) {
 		let alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -449,19 +298,6 @@ function keyPress(event) {
 	}
 }
 
-function quitQlick() {
-	if (gameFin == 0) {
-		let url = '<a href="https://duckduckgo.com/?q=%22' + chosenWord + '%22+%22definition%22&ia=definition" target="_blank">' + chosenWord + '</a>';
-		notification = 'The word was ' + url + '. Click to play again';
-		currentStreak = 0;
-		userScore = userScore - 15;
-		gameOver();
-
-		setTimeout(function () {
-			openModal('endScore', notification);
-		}, 250);
-	}
-}
 
 function enterClick() {
 	if (gameFin == 0) {
@@ -472,19 +308,16 @@ function enterClick() {
 }
 
 function logoClick(event) {
-	gameOn = 0;
 	container.innerHTML = '';
 	startMenu();
 }
 
 function menuClick(event) {
 	let j = event.currentTarget.j;
-	let modalType = (j == 0) ? 'charSelect' : ((j == 1) ? 'levelSelect' : ((j == 2) ? 'difficultySelect' : 'help'));
-	// let modalType = (j == 0) ? 'charSelect' : ((j == 1) ? 'levelSelect' : ((j == 2) ? 'difficultySelect' : ((j == 3) ? 'highScores' : 'help')));
-	if (j < 4) {
+	let modalType = (j == 0) ? 'help' : 'error';
+	if (j < 1) {
 		openModal(modalType);
 	} else {
-		gameOn = 1;
 		gameStart();
 	}
 }
@@ -503,44 +336,6 @@ function restartClick() {
 	gameStart();
 }
 
-function difficultySelect() {
-	difficulty = this.innerText.toLowerCase();
-	if (gameOn == 1) {
-		userScore = 0;
-		currentStreak = 0;
-		gameOver();
-		document.removeEventListener('keyup', restart, false);
-		gameStart();
-	} else {
-		startMenu();
-	}
-}
-function charSelect() {
-	maxBlock = parseInt(this.innerText.replace(/\D/g, ''));
-	if (gameOn == 1) {
-		userScore = 0;
-		currentStreak = 0;
-		gameOver();
-		document.removeEventListener('keyup', restart, false);
-		gameStart();
-	} else {
-		startMenu();
-	}
-}
-
-function changeScore() {
-	let j = event.currentTarget.j;
-	let modal = event.currentTarget.modal;
-	document.getElementsByClassName('scoreBtnActive')[0].className = 'scoreBtn';
-	this.className = 'scoreBtnActive';
-	if (j == 0 || j == 1) {
-		document.getElementById('msBlock').remove();
-		showScores(modal, 'score', this.innerText.toLowerCase());
-	} else {
-		document.getElementById('msBlock').remove();
-		showScores(modal, 'streak', this.innerText.toLowerCase());
-	}
-}
 
 function closeModal() {
 	let modal = event.currentTarget.modal;
@@ -558,19 +353,6 @@ function deleteClick() {
 		let wordRow = document.getElementsByClassName('row')[currentRow];
 		let rowBlockEl = wordRow.childNodes;
 		deleteLetter(rowBlockEl);
-	}
-}
-
-function levelSelect() {
-	level = this.innerText.toLowerCase().replace(/ /g, "");
-	if (gameOn == 1) {
-		userScore = 0;
-		currentStreak = 0;
-		gameOver();
-		document.removeEventListener('keyup', restart, false);
-		gameStart();
-	} else {
-		startMenu();
 	}
 }
 
@@ -595,6 +377,9 @@ function count(str, find) {
 }
 
 function checkAnswer(wordRow, answer) {
+	let score = 0;
+
+	console.log(wordRow, answer)
 	let answerArray = [];
 
 	for (i = 0; i < answer.length; i++) {
@@ -638,9 +423,6 @@ function checkAnswer(wordRow, answer) {
 					keyboard.className += ' blockGold';
 				}
 			}
-			if (count(answer, letter) > count(mustUse, letter) && count(mustUse, letter) <= count(chosenWord, letter)) {
-				mustUse += letter;
-			}
 		}
 		else {
 			if (!keyboard.className.includes('blockGrey')) {
@@ -652,7 +434,8 @@ function checkAnswer(wordRow, answer) {
 	if (score === maxBlock) {
 
 
-		let notification = 'Well done, you won! Click to play again';
+		let url = '<a href="https://duckduckgo.com/' + chosenWord + '+definition&ia=definition" target="_blank">' + chosenWord + '</a>';
+		let notification = url;
 		gameOver();
 
 		setTimeout(function () {
@@ -661,9 +444,8 @@ function checkAnswer(wordRow, answer) {
 	}
 	else if (currentRow == 5) {
 		let url = '<a href="https://duckduckgo.com/?q=%22' + chosenWord + '%22+%22definition%22&ia=definition" target="_blank">' + chosenWord + '</a>';
-		let notification = 'You lost. The word was ' + url + '. Click to play again';
-		userScore = userScore - 10;
-		currentStreak = 0;
+		let notification = url;
+		// currentStreak = 0;
 		gameOver();
 
 		setTimeout(function () {
@@ -671,7 +453,6 @@ function checkAnswer(wordRow, answer) {
 		}, 250);
 	}
 	else {
-		score = 0;
 		nextRowBlock = 0;
 		currentRow++;
 	}
@@ -681,15 +462,6 @@ function submitWord(wordRow) {
 	if (nextRowBlock > 0 && nextRowBlock % maxBlock == 0) {
 		let answer = wordRow.innerText.replace(/[\n\r]/g, '');
 		if (fullList.includes(answer)) {
-			if (difficulty == 'difficult') {
-				for (i = 0; i < mustUse.length; i++) {
-					if (!answer.includes(mustUse[i])) {
-						remNotification = 0;
-						document.getElementById('notification').innerText = 'You must use found characters';
-						return;
-					}
-				}
-			}
 			checkAnswer(wordRow, answer);
 		} else {
 			remNotification = 0;
