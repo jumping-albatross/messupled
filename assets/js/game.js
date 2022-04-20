@@ -9,16 +9,8 @@ let gameFin = 0; let gameOn = 0;
 
 let maxBlock = 5; let level = 'beginner'; let difficulty = 'easy'; let mustUse = '';
 
-let bestStreak = 0; let currentStreak = 0; let userScore = 0;
-let scoreEasyBeginner3 = 0; let scoreEasyIntermediate3 = 0;
-let scoreEasyAdvanced3 = 0; let scoreEasyGod3 = 0;
-let scoreEasyBeginner4 = 0; let scoreEasyIntermediate4 = 0;
-let scoreEasyAdvanced4 = 0; let scoreEasyGod4 = 0;
-let scoreEasyBeginner5 = 0; let scoreEasyIntermediate5 = 0;
-let scoreEasyAdvanced5 = 0; let scoreEasyGod5 = 0;
-let scoreDifficultBeginner3 = 0; let scoreDifficultIntermediate3 = 0;
-let scoreDifficultAdvanced3 = 0; let scoreDifficultGod3 = 0;
-let scoreDifficultBeginner4 = 0; let scoreDifficultIntermediate4 = 0; let scoreDifficultAdvanced4 = 0; let scoreDifficultGod4 = 0; let scoreDifficultBeginner5 = 0; let scoreDifficultIntermediate5 = 0; let scoreDifficultAdvanced5 = 0; let scoreDifficultGod5 = 0; let streakEasyBeginner3 = 0; let streakEasyIntermediate3 = 0; let streakEasyAdvanced3 = 0; let streakEasyGod3 = 0; let streakEasyBeginner4 = 0; let streakEasyIntermediate4 = 0; let streakEasyAdvanced4 = 0; let streakEasyGod4 = 0; let streakEasyBeginner5 = 0; let streakEasyIntermediate5 = 0; let streakEasyAdvanced5 = 0; let streakEasyGod5 = 0; let streakDifficultBeginner3 = 0; let streakDifficultIntermediate3 = 0; let streakDifficultAdvanced3 = 0; let streakDifficultGod3 = 0; let streakDifficultBeginner4 = 0; let streakDifficultIntermediate4 = 0; let streakDifficultAdvanced4 = 0; let streakDifficultGod4 = 0; let streakDifficultBeginner5 = 0; let streakDifficultIntermediate5 = 0; let streakDifficultAdvanced5 = 0; let streakDifficultGod5 = 0; let scoreType = 'score'; let scoreDiff = 'easy';
+let scoreType = 'score';
+let scoreDiff = 'easy';
 
 // https://codeburst.io/javascript-double-equals-vs-triple-equals-61d4ce5a121a
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
@@ -118,42 +110,14 @@ function openModal(type, notification) {
 			}, 1);
 		}
 	}
-	else if (type == 'difficultySelect') {
-		for (i = 0; i < 2; i++) {
-			let modalBtn = document.createElement('button');
-			modalBtn.className = 'modalBtnL';
-			modalBtn.innerText = (i == 0) ? 'Easy' : 'Difficult';
-			modalBtn.addEventListener('click', difficultySelect);
-			modal.append(modalBtn);
-			setTimeout(function () {
-				modal.style.cssText = 'opacity: 1';
-			}, 1);
-		}
-	}
 	else if (type == 'endScore') {
 		let message = document.createElement('span');
 		message.className = 'modalMessage';
 		message.innerHTML = notification;
 		modal.append(message);
 
-		addSocial(modal);
+		// addSocial(modal);
 
-		for (i = 0; i < 4; i++) {
-			let modalScoreBlock = document.createElement('div');
-			modalScoreBlock.className = 'msBlock';
-			let msHeadContent = (i == 0) ? 'SCORE' : ((i == 1) ? 'TOP SCORE' : ((i == 2) ? 'STREAK' : 'BEST STREAK'));
-			let modalScoreHead = document.createElement('span');
-			modalScoreHead.className = 'msHead';
-			modalScoreHead.innerText = msHeadContent;
-			modalScoreBlock.append(modalScoreHead);
-
-			let msBodyContent = (i == 0) ? userScore : ((i == 1) ? localStorage.getItem('score' + difficulty + level) : ((i == 2) ? currentStreak : localStorage.getItem('streak' + difficulty + level)));
-			let modalScoreBody = document.createElement('span');
-			modalScoreBody.className = 'msBody';
-			modalScoreBody.innerText = (msBodyContent == null) ? 0 : msBodyContent;
-			modalScoreBlock.append(modalScoreBody);
-			modal.append(modalScoreBlock);
-		}
 		setTimeout(function () {
 			document.addEventListener('click', restartClick);
 			document.addEventListener('keyup', restart);
@@ -190,6 +154,9 @@ function openModal(type, notification) {
 		}
 		showHelp(modal, 'game');
 	}
+	else{
+		return 0;
+	}
 
 	container.prepend(modal);
 	setTimeout(function () {
@@ -215,26 +182,6 @@ function openModal(type, notification) {
 function addSocial(loc) {
 	let socialNav = document.createElement('div');
 	socialNav.className = 'socialNav';
-
-	let telegramIcon = document.createElement('img');
-	telegramIcon.className = 'modalSocialIcon';
-	telegramIcon.src = './assets/img/social/telegram_icon.png';
-	telegramIcon.title = 'Share on Telegram';
-	telegramIcon.alt = 'Telegram';
-	telegramIcon.addEventListener("click", function () {
-		openWindow('https://t.me/share/url?url=https://wordled.online&text=I\'ve been playing Wordled and love it. You have 6 tries to guess the hidden word and beat your high score. There are multiple difficulty settings to keep things interesting and it\'s free to play.', 'Telegram');
-	});
-	socialNav.append(telegramIcon);
-
-	let twitterIcon = document.createElement('img');
-	twitterIcon.className = 'modalSocialIcon';
-	twitterIcon.src = './assets/img/social/twitter_icon.png';
-	twitterIcon.title = 'Share on Twitter';
-	twitterIcon.alt = 'Twitter';
-	twitterIcon.addEventListener("click", function () {
-		openWindow('https://twitter.com/intent/tweet?text=I%27ve%20been%20playing%20%23Wordled%20and%20love%20it.%20You%20have%206%20tries%20to%20guess%20the%20hidden%20word%20and%20beat%20your%20high%20score.%20There%20are%20multiple%20difficulty%20settings%20to%20keep%20things%20interesting%20and%20it%27s%20free%20to%20play.&url=https%3A%2F%2Fwordled.online&via=wordled', 'Twitter');
-	});
-	socialNav.append(twitterIcon);
 
 	let facebookIcon = document.createElement('img');
 	facebookIcon.className = 'modalSocialIcon';
@@ -406,7 +353,7 @@ function gameStart() {
 	let wordType = (level == 'beginner') ? beginner : ((level == 'intermediate') ? intermediate : ((level == 'advanced') ? advanced : ((level == 'godmode') ? fullList : custom)));
 	let rand = Math.floor(Math.random() * wordType.length);
 	chosenWord = wordType[rand].toUpperCase();
-
+	console.log(chosenWord)
 	addLogo();
 
 	let navBar = document.createElement('div');
@@ -719,17 +666,7 @@ function checkAnswer(wordRow, answer) {
 	}
 
 	if (score === maxBlock) {
-		let scoreLevel = (level == 'beginner') ? 1 : ((level == 'intermediate') ? 2 : ((level == 'advanced') ? 3 : 4));
-		userScore = userScore + ((scoreLevel * 10) - ((scoreLevel + 1) * currentRow));
 
-		if (userScore > localStorage.getItem('score' + difficulty + level)) {
-			localStorage.setItem('score' + difficulty + level, userScore);
-		}
-
-		currentStreak++;
-		if (currentStreak > localStorage.getItem('streak' + difficulty + level)) {
-			localStorage.setItem('streak' + difficulty + level, currentStreak);
-		}
 
 		let notification = 'Well done, you won! Click to play again';
 		gameOver();
